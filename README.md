@@ -71,6 +71,44 @@ Then open:
 http://127.0.0.1:5000
 ```
 
+## Cleaning local outputs
+
+The template stores generated experiment files under `local/`, which is ignored by git.
+
+Clean only MLflow runs and experiment metadata:
+
+```bash
+pixi run clean-runs
+```
+
+Clean only model checkpoints:
+
+```bash
+pixi run clean-checkpoints
+```
+
+Clean only generated figures:
+
+```bash
+pixi run clean-figures
+```
+
+Clean everything generated locally:
+
+```bash
+pixi run clean-all
+```
+
+The cleanup tasks remove these files/directories:
+
+```text
+local/mlflow.db
+local/mlruns/
+mlruns/
+local/checkpoints/
+local/figures/
+```
+
 ## Format, lint, and test
 
 ```bash

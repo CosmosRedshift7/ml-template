@@ -6,7 +6,7 @@ from lightning.pytorch.callbacks import LearningRateMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import MLFlowLogger
 
 from model import LightningModel, LinearRegressionData
-from utils import ensure_dir, load_config, make_config_parser
+from utils import ensure_dir, load_config, make_config_parser, save_test_fit_plot
 
 
 def parse_args() -> argparse.Namespace:
@@ -46,6 +46,21 @@ def main() -> None:
 
     trainer.fit(model, datamodule=datamodule)
     trainer.test(model, datamodule=datamodule, ckpt_path="best")
+
+    best_model = LightningModel.load_from_checkpoint(checkpoint.best_model_path)
+    best_model.to(trainer.strategy.root_device)
+
+    fig_path = save_test_fit_plot(
+        best_model,
+        datamodule,
+        f"local/figures/test_fit_{logger.run_id}.png",
+    )
+
+    logger.experiment.log_artifact(
+        logger.run_id,
+        str(fig_path),
+        artifact_path="figures",
+    )
 
     print(f"Best checkpoint saved to: {checkpoint.best_model_path}")
 

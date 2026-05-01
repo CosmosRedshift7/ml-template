@@ -6,9 +6,8 @@ data:
   n_test: 1024
   input_dim: 16
   batch_size: 128
-  num_workers: 0
-  noise_std: 0.1
   num_workers: 4
+  noise_std: 0.1
 
 model:
   input_dim: 16
