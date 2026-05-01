@@ -1,0 +1,36 @@
+seed: 42
+
+data:
+  n_train: 4096
+  n_val: 1024
+  n_test: 1024
+  input_dim: 16
+  batch_size: 128
+  num_workers: 0
+  noise_std: 0.1
+  num_workers: 4
+
+model:
+  input_dim: 16
+  hidden_dim: 64
+  output_dim: 1
+
+optim:
+  lr: 0.001
+  weight_decay: 0.0
+
+trainer:
+  max_epochs: 10
+  accelerator: auto
+  devices: auto
+  log_every_n_steps: 10
+
+mlflow:
+  experiment_name: ml-template
+  tracking_uri: sqlite:///local/mlflow.db
+
+checkpoint:
+  dirpath: local/checkpoints
+  filename: best
+  monitor: val/loss
+  mode: min

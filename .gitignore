@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Pixi
+.pixi/
+# Commit pixi.lock for reproducible environments.
+# pixi.lock
+
+# Local project artifacts
+local/
+mlruns/
+outputs/
+checkpoints/
+*.ckpt
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

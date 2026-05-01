@@ -1,0 +1,45 @@
+[project]
+name = "ml-template"
+version = "0.1.0"
+description = "Minimal PyTorch Lightning + MLflow + Pixi template for ML projects"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.dependencies]
+python = ">=3.11,<3.13"
+pytorch-cpu = ">=2.8,<2.10"
+lightning = ">=2.5,<2.6"
+mlflow = "*"
+numpy = "*"
+pyyaml = "*"
+
+[tool.pixi.tasks]
+train = "python train.py --config configs/default.yaml"
+test = "python test.py --config configs/default.yaml"
+mlflow-ui = "mlflow ui --backend-store-uri sqlite:///local/mlflow.db --host 127.0.0.1 --port 5000"
+lint = "ruff check ."
+format = "ruff format ."
+pytest = "pytest"
+
+[tool.pixi.feature.dev.dependencies]
+pytest = "*"
+ruff = "*"
+
+[tool.pixi.environments]
+default = ["dev"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
