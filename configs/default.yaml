@@ -33,3 +33,8 @@ checkpoint:
   filename: best
   monitor: val/loss
   mode: min
+  save_top_k: 1
+  enable_version_counter: false
+
+evaluate:
+  ckpt_path: local/checkpoints/best.ckpt

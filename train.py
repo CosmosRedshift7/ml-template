@@ -45,15 +45,12 @@ def main() -> None:
     )
 
     trainer.fit(model, datamodule=datamodule)
-    trainer.test(model, datamodule=datamodule, ckpt_path="best")
-
-    best_model = LightningModel.load_from_checkpoint(checkpoint.best_model_path)
-    best_model.to(trainer.strategy.root_device)
+    trainer.test(model, datamodule=datamodule)
 
     fig_path = save_test_fit_plot(
-        best_model,
+        model,
         datamodule,
-        f"local/figures/test_fit_{logger.run_id}.png",
+        f"local/figures/train_fit_on_test_dataset_{logger.run_id}.png",
     )
 
     logger.experiment.log_artifact(
@@ -63,6 +60,7 @@ def main() -> None:
     )
 
     print(f"Best checkpoint saved to: {checkpoint.best_model_path}")
+    print(f"Test fit plot saved to: {fig_path}")
 
 
 if __name__ == "__main__":
