@@ -9,7 +9,7 @@ The goal is to keep the project boring, reproducible, and easy to copy into new 
 ```text
 .
 ├── train.py
-├── test.py
+├── evaluate.py
 ├── utils.py
 ├── pyproject.toml
 ├── README.md
@@ -50,13 +50,13 @@ Training logs are written to MLflow in `local/mlruns`.
 ## Test / evaluate from a checkpoint
 
 ```bash
-pixi run test
+pixi run evaluate
 ```
 
 or:
 
 ```bash
-pixi run python test.py --config configs/default.yaml --ckpt local/checkpoints/best.ckpt
+pixi run python evaluate.py --config configs/default.yaml --ckpt local/checkpoints/best.ckpt
 ```
 
 ## Open MLflow UI
@@ -122,4 +122,4 @@ pixi run pytest
 - `local/` is intentionally ignored by git.
 - Keep raw data, generated data, MLflow runs, and checkpoints under `local/`.
 - Commit `pixi.lock` once generated for reproducible environments.
-- The default example trains a tiny MLP on a synthetic regression dataset.
+- The default example trains a tiny fully connected layer model on a synthetic linear regression dataset.
