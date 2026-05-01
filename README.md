@@ -2,7 +2,7 @@
 
 Minimal ML research template using **PyTorch**, **PyTorch Lightning**, **MLflow**, and **Pixi**.
 
-The goal is to keep the project boring, reproducible, and easy to copy into new research projects.
+The goal is to keep the project reproducible, and easy to copy into new research projects.
 
 ## Structure
 
@@ -123,3 +123,7 @@ pixi run pytest
 - Keep raw data, generated data, MLflow runs, and checkpoints under `local/`.
 - Commit `pixi.lock` once generated for reproducible environments.
 - The default example trains a tiny fully connected layer model on a synthetic linear regression dataset.
+
+## License
+
+This project is licensed under the MIT License.
