@@ -244,6 +244,14 @@ pixi run train
 pixi run mlflow-ui
 ```
 
+Before committing changes:
+
+```bash
+pixi run format
+pixi run lint
+pixi run pytest
+```
+
 ## Extending the template
 
 Common next steps:
