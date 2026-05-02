@@ -1,9 +1,9 @@
 import argparse
 
-import mlflow
+from aim import Image
+from aim.pytorch_lightning import AimLogger
 from lightning.pytorch import Trainer, seed_everything
 from lightning.pytorch.callbacks import LearningRateMonitor, ModelCheckpoint
-from lightning.pytorch.loggers import MLFlowLogger
 
 from model import LightningModel, LinearRegressionData
 from utils import ensure_dir, load_config, make_config_parser, save_test_fit_plot
@@ -21,28 +21,14 @@ def main() -> None:
     seed_everything(cfg["seed"], workers=True)
 
     ensure_dir("local")
-    tracking_uri = cfg["mlflow"]["tracking_uri"]
-    mlflow.set_tracking_uri(tracking_uri)
+    ensure_dir(cfg["aim"]["repo"])
 
     datamodule = LinearRegressionData(**cfg["data"])
     model = LightningModel(**cfg["model"], **cfg["optim"])
 
-    experiment_name = cfg["mlflow"]["experiment_name"]
-    artifact_location = cfg["mlflow"]["artifact_location"]
-
-    mlflow.set_tracking_uri(tracking_uri)
-
-    experiment = mlflow.get_experiment_by_name(experiment_name)
-    if experiment is None:
-        mlflow.create_experiment(
-            name=experiment_name,
-            artifact_location=artifact_location,
-        )
-
-    logger = MLFlowLogger(
-        experiment_name=cfg["mlflow"]["experiment_name"],
-        tracking_uri=tracking_uri,
-        log_model=False,
+    logger = AimLogger(
+        repo=cfg["aim"]["repo"],
+        experiment=cfg["aim"]["experiment_name"],
     )
     logger.log_hyperparams(cfg)
 
@@ -62,13 +48,13 @@ def main() -> None:
     fig_path = save_test_fit_plot(
         model,
         datamodule,
-        f"local/figures/train_fit_on_test_dataset_{logger.run_id}.png",
+        "local/figures/train_fit_on_test_dataset.png",
     )
 
-    logger.experiment.log_artifact(
-        logger.run_id,
-        str(fig_path),
-        artifact_path="figures",
+    logger.experiment.track(
+        Image(str(fig_path)),
+        name="train_fit_on_test_dataset",
+        context={"type": "figure"},
     )
 
     print(f"Best checkpoint saved to: {checkpoint.best_model_path}")

@@ -10,23 +10,23 @@ channels = ["conda-forge"]
 platforms = ["linux-64"]
 
 [tool.pixi.dependencies]
-python = ">=3.11,<3.13"
-pytorch-cpu = ">=2.8,<2.10"
-lightning = ">=2.5,<2.6"
-mlflow = "*"
-numpy = "*"
+python = "*"
+pytorch-cpu = "*"
+lightning = "*"
+aim = "*"
 pyyaml = "*"
 matplotlib = "*"
+setuptools = "<81"
 
 [tool.pixi.tasks]
 train = "python train.py --config configs/default.yaml"
 evaluate = "python evaluate.py --config configs/default.yaml"
-mlflow-ui = "mlflow ui --backend-store-uri sqlite:///local/mlflow.db --host 127.0.0.1 --port 5000"
+aim-ui = "aim up --repo local/aim --host 127.0.0.1 --port 43800"
 
-clean-runs = "rm -rf local/mlflow.db local/mlruns local/mlartifacts mlruns"
+clean-runs = "rm -rf local/aim"
 clean-checkpoints = "rm -rf local/checkpoints"
 clean-figures = "rm -rf local/figures"
-clean-all = "rm -rf local/mlflow.db local/mlruns local/mlartifacts mlruns local/checkpoints local/figures"
+clean-all = "rm -rf local/aim local/checkpoints local/figures"
 
 lint = "ruff check ."
 format = "ruff format ."

@@ -24,10 +24,9 @@ trainer:
   devices: auto
   log_every_n_steps: 10
 
-mlflow:
+aim:
+  repo: local/aim
   experiment_name: ml-template
-  tracking_uri: sqlite:///local/mlflow.db
-  artifact_location: local/mlartifacts
 
 checkpoint:
   dirpath: local/checkpoints
