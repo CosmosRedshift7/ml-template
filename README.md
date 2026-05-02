@@ -18,7 +18,7 @@ Reproducibility is handled through Pixi environments and the generated `pixi.loc
 ## Quick start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ml-template.git
+git clone https://github.com/CosmosRedshift7/ml-template.git
 cd ml-template
 pixi install
 pixi run train
