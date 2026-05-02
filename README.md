@@ -7,11 +7,62 @@
 [![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)](https://pixi.sh/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
+> A lightweight, reproducible PyTorch Lightning template with MLflow tracking and Pixi environments.
+
 Minimal machine learning research template using [PyTorch](https://pytorch.org/), [PyTorch Lightning](https://lightning.ai/docs/pytorch/latest/), [MLflow](https://mlflow.org/), and [Pixi](https://pixi.sh/).
 
 This repository is designed to be a clean starting point for ML experiments, research code, and small-to-medium prototype projects. The goal is to keep the project **reproducible**, **easy to understand**, and **easy to copy into a new project**.
 
 Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional “works on my machine” academic sport. Pixi is designed around reproducible, cross-platform environments and one-command task execution. [PyTorch](https://pytorch.org/projects/pytorch/) provides the core deep learning framework, [Lightning](https://lightning.ai/docs/pytorch/latest/) organizes training/evaluation code, and [MLflow](https://mlflow.org/) tracks metrics, parameters, and artifacts.
+
+## Quick start
+
+```bash
+git clone https://github.com/YOUR_USERNAME/ml-template.git
+cd ml-template
+pixi install
+pixi run train
+pixi run mlflow-ui
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5000
+```
+
+> [!TIP]
+> In the MLflow UI, go to **Experiments → ml-template → select a run → Evaluation runs** to view metrics, parameters, and artifacts.
+
+## What you get
+
+| Feature                  | Included                              |
+| ------------------------ | ------------------------------------- |
+| Reproducible environment | Pixi + `pixi.lock`                    |
+| Training framework       | PyTorch Lightning                     |
+| Experiment tracking      | Local MLflow                          |
+| Configuration            | YAML config in `configs/default.yaml` |
+| Checkpointing            | Lightning `ModelCheckpoint`           |
+| Evaluation               | Separate `evaluate.py` entry point    |
+| Plots                    | Predicted-vs-true fit plot            |
+| Tests                    | Pytest smoke tests                    |
+| Code quality             | Ruff formatting and linting           |
+| Local cleanup            | Pixi cleanup tasks                    |
+
+## Workflow
+
+```mermaid
+flowchart LR
+    A[configs/default.yaml] --> B[train.py]
+    B --> C[LightningModel]
+    B --> D[MLflow]
+    B --> E[local/checkpoints]
+    B --> F[local/figures]
+    B --> G[local/mlartifacts]
+    E --> H[evaluate.py]
+    H --> D
+    H --> F
+```
 
 ## Why use this template?
 
