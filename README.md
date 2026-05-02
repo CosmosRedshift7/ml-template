@@ -1,10 +1,17 @@
 # ml-template
 
+![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.8--2.9-ee4c2c)
+![Lightning](https://img.shields.io/badge/Lightning-2.5-purple)
+![MLflow](https://img.shields.io/badge/MLflow-tracking-0194e2)
+![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
 Minimal machine learning research template using [PyTorch](https://pytorch.org/), [PyTorch Lightning](https://lightning.ai/docs/pytorch/latest/), [MLflow](https://mlflow.org/), and [Pixi](https://pixi.sh/).
 
 This repository is designed to be a clean starting point for ML experiments, research code, and small-to-medium prototype projects. The goal is to keep the project **reproducible**, **easy to understand**, and **easy to copy into a new project**.
 
-Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional “works on my machine” academic sport. Pixi is designed around reproducible, cross-platform environments and one-command task execution. [PyTorch](https://pytorch.org/projects/pytorch/) provides the core deep learning framework, [Lightning](https://lightning.ai/docs/pytorch/latest/) organizes training/evaluation code, and [MLflow](https://mlflow.org/) tracks metrics, parameters, and artifacts. :contentReference[oaicite:0]{index=0}
+Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional “works on my machine” academic sport. Pixi is designed around reproducible, cross-platform environments and one-command task execution. [PyTorch](https://pytorch.org/projects/pytorch/) provides the core deep learning framework, [Lightning](https://lightning.ai/docs/pytorch/latest/) organizes training/evaluation code, and [MLflow](https://mlflow.org/) tracks metrics, parameters, and artifacts.
 
 ## Why use this template?
 
