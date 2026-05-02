@@ -27,6 +27,7 @@ trainer:
 mlflow:
   experiment_name: ml-template
   tracking_uri: sqlite:///local/mlflow.db
+  artifact_location: local/mlartifacts
 
 checkpoint:
   dirpath: local/checkpoints

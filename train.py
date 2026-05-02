@@ -27,6 +27,18 @@ def main() -> None:
     datamodule = LinearRegressionData(**cfg["data"])
     model = LightningModel(**cfg["model"], **cfg["optim"])
 
+    experiment_name = cfg["mlflow"]["experiment_name"]
+    artifact_location = cfg["mlflow"]["artifact_location"]
+
+    mlflow.set_tracking_uri(tracking_uri)
+
+    experiment = mlflow.get_experiment_by_name(experiment_name)
+    if experiment is None:
+        mlflow.create_experiment(
+            name=experiment_name,
+            artifact_location=artifact_location,
+        )
+
     logger = MLFlowLogger(
         experiment_name=cfg["mlflow"]["experiment_name"],
         tracking_uri=tracking_uri,

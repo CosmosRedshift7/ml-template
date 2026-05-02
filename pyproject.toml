@@ -23,10 +23,10 @@ train = "python train.py --config configs/default.yaml"
 evaluate = "python evaluate.py --config configs/default.yaml"
 mlflow-ui = "mlflow ui --backend-store-uri sqlite:///local/mlflow.db --host 127.0.0.1 --port 5000"
 
-clean-runs = "rm -rf local/mlflow.db local/mlruns mlruns"
+clean-runs = "rm -rf local/mlflow.db local/mlruns local/mlartifacts mlruns"
 clean-checkpoints = "rm -rf local/checkpoints"
 clean-figures = "rm -rf local/figures"
-clean-all = "rm -rf local/mlflow.db local/mlruns mlruns local/checkpoints local/figures"
+clean-all = "rm -rf local/mlflow.db local/mlruns local/mlartifacts mlruns local/checkpoints local/figures"
 
 lint = "ruff check ."
 format = "ruff format ."
