@@ -1,10 +1,10 @@
 # ml-template
 
-![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.8--2.9-ee4c2c)
-![Lightning](https://img.shields.io/badge/Lightning-2.5-purple)
-![MLflow](https://img.shields.io/badge/MLflow-tracking-0194e2)
-![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)
+[![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.8--2.9-ee4c2c)](https://pytorch.org/)
+[![Lightning](https://img.shields.io/badge/Lightning-2.5-purple)](https://lightning.ai/docs/pytorch/latest/)
+[![MLflow](https://img.shields.io/badge/MLflow-tracking-0194e2)](https://mlflow.org/)
+[![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)](https://pixi.sh/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 Minimal machine learning research template using [PyTorch](https://pytorch.org/), [PyTorch Lightning](https://lightning.ai/docs/pytorch/latest/), [MLflow](https://mlflow.org/), and [Pixi](https://pixi.sh/).
