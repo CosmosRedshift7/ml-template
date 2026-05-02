@@ -81,7 +81,7 @@ This is intentionally small. It is meant to be copied, modified, and extended.
 ├── .gitignore
 ├── configs/
 │   └── default.yaml
-├── local/              # ignored by git: data, runs, checkpoints, figures
+├── local/
 ├── model/
 │   ├── __init__.py
 │   ├── dataset.py
