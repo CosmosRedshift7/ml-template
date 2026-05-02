@@ -58,11 +58,28 @@ This is intentionally small. It is meant to be copied, modified, and extended.
 
 ## Setup
 
-Install Pixi first if you do not already have it:
+Install Pixi first if you do not already have it.
+
+Linux & macOS:
 
 ```bash
-curl -fsSL https://pixi.sh/install.sh | bash
+curl -fsSL https://pixi.sh/install.sh | sh
 ```
+
+Windows:
+
+[Download installer](https://github.com/prefix-dev/pixi/releases/latest/download/pixi-x86_64-pc-windows-msvc.msi)
+
+or install from PowerShell:
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm -useb https://pixi.sh/install.ps1 | iex"
+```
+
+> [!IMPORTANT]
+> 🔥 **Restart your terminal or shell after installing Pixi.**
+>
+> This makes the `pixi` command available in your shell.
 
 Then install the project environment:
 
@@ -71,6 +88,9 @@ pixi install
 ```
 
 This creates a local Pixi environment using the dependencies specified in `pyproject.toml` and locked in `pixi.lock`.
+
+> [!TIP]
+> Commit `pixi.lock` to make the environment reproducible across machines.
 
 ## Train
 
@@ -95,6 +115,9 @@ Training will:
 - save a test fit plot under `local/figures/`,
 - log the plot as an MLflow artifact.
 
+> [!NOTE]
+> Training outputs are saved under `local/`, which is ignored by git.
+
 ## Evaluate from a checkpoint
 
 Evaluate the checkpoint specified in `configs/default.yaml`:
@@ -108,6 +131,9 @@ By default, this evaluates:
 ```text
 local/checkpoints/best.ckpt
 ```
+
+> [!IMPORTANT]
+> Run `pixi run train` before `pixi run evaluate`, unless you already have a checkpoint at `local/checkpoints/best.ckpt`.
 
 To evaluate a different checkpoint:
 
@@ -204,11 +230,15 @@ Clean everything generated locally:
 pixi run clean-all
 ```
 
+> [!WARNING]
+> Cleanup tasks delete local experiment outputs. They do not affect files committed to git.
+
 The cleanup tasks remove these files/directories:
 
 ```text
 local/mlflow.db
 local/mlruns/
+local/mlartifacts/
 mlruns/
 local/checkpoints/
 local/figures/
@@ -253,6 +283,9 @@ pixi run pytest
 ```
 
 ## Extending the template
+
+> [!TIP]
+> Start by replacing the data module and model, then update `configs/default.yaml` to match your project.
 
 Common next steps:
 
