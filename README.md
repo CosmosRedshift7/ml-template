@@ -49,21 +49,6 @@ http://127.0.0.1:5000
 | Code quality             | Ruff formatting and linting           |
 | Local cleanup            | Pixi cleanup tasks                    |
 
-## Workflow
-
-```mermaid
-flowchart LR
-    A[configs/default.yaml] --> B[train.py]
-    B --> C[LightningModel]
-    B --> D[MLflow]
-    B --> E[local/checkpoints]
-    B --> F[local/figures]
-    B --> G[local/mlartifacts]
-    E --> H[evaluate.py]
-    H --> D
-    H --> F
-```
-
 ## Why use this template?
 
 This template gives you a practical baseline for ML projects without forcing a heavy framework on top of your code.
