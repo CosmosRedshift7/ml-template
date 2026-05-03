@@ -1,19 +1,19 @@
 # ml-template
 
-[![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.8--2.9-ee4c2c)](https://pytorch.org/)
-[![Lightning](https://img.shields.io/badge/Lightning-2.5-purple)](https://lightning.ai/docs/pytorch/latest/)
-[![MLflow](https://img.shields.io/badge/MLflow-tracking-0194e2)](https://mlflow.org/)
+[![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.10-ee4c2c)](https://pytorch.org/)
+[![Lightning](https://img.shields.io/badge/Lightning-2.6-purple)](https://lightning.ai/docs/pytorch/latest/)
+[![Aim](https://img.shields.io/badge/Aim-experiment%20tracking-111111)](https://aimstack.io/)
 [![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)](https://pixi.sh/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-> A lightweight, reproducible PyTorch Lightning template with MLflow tracking and Pixi environments.
+> A lightweight, reproducible PyTorch Lightning template with local Aim experiment tracking and Pixi environments.
 
-Minimal machine learning research template using [PyTorch](https://pytorch.org/), [PyTorch Lightning](https://lightning.ai/docs/pytorch/latest/), [MLflow](https://mlflow.org/), and [Pixi](https://pixi.sh/).
+Minimal machine learning research template using [PyTorch](https://pytorch.org/), [PyTorch Lightning](https://lightning.ai/docs/pytorch/latest/), [Aim](https://aimstack.io/), and [Pixi](https://pixi.sh/).
 
 This repository is designed to be a clean starting point for ML experiments, research code, and small-to-medium prototype projects. The goal is to keep the project **reproducible**, **easy to understand**, and **easy to copy into a new project**.
 
-Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional “works on my machine” academic sport. Pixi is designed around reproducible, cross-platform environments and one-command task execution. [PyTorch](https://pytorch.org/projects/pytorch/) provides the core deep learning framework, [Lightning](https://lightning.ai/docs/pytorch/latest/) organizes training/evaluation code, and [MLflow](https://mlflow.org/) tracks metrics, parameters, and artifacts.
+Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional “works on my machine” academic sport. Pixi provides reproducible environments and one-command task execution, PyTorch provides the core deep learning framework, Lightning organizes training/evaluation code, and Aim tracks metrics, parameters, and figures locally through a web UI.
 
 ## Quick start
 
@@ -22,32 +22,32 @@ git clone https://github.com/CosmosRedshift7/ml-template.git
 cd ml-template
 pixi install
 pixi run train
-pixi run mlflow-ui
+pixi run aim-ui
 ```
 
 Then open:
 
 ```text
-http://127.0.0.1:5000
+http://127.0.0.1:43800
 ```
 
 > [!TIP]
-> In the MLflow UI, go to **Experiments → ml-template → select a run → Evaluation runs** to view metrics, parameters, and artifacts.
+> In the Aim UI, open the `ml-template` experiment to view runs, metrics, hyperparameters, and tracked figures.
 
 ## What you get
 
-| Feature                  | Included                              |
-| ------------------------ | ------------------------------------- |
-| Reproducible environment | Pixi + `pixi.lock`                    |
-| Training framework       | PyTorch Lightning                     |
-| Experiment tracking      | Local MLflow                          |
-| Configuration            | YAML config in `configs/default.yaml` |
-| Checkpointing            | Lightning `ModelCheckpoint`           |
-| Evaluation               | Separate `evaluate.py` entry point    |
-| Plots                    | Predicted-vs-true fit plot            |
-| Tests                    | Pytest smoke tests                    |
-| Code quality             | Ruff formatting and linting           |
-| Local cleanup            | Pixi cleanup tasks                    |
+| Feature                  | Included                                 |
+| ------------------------ | ---------------------------------------- |
+| Reproducible environment | Pixi + `pixi.lock`                       |
+| Training framework       | PyTorch Lightning                        |
+| Experiment tracking      | Local Aim tracking                       |
+| Configuration            | YAML config in `configs/default.yaml`    |
+| Checkpointing            | Lightning `ModelCheckpoint`              |
+| Evaluation               | Separate `evaluate.py` entry point       |
+| Plot tracking            | Aim callback for predicted-vs-true plots |
+| Tests                    | Pytest smoke tests                       |
+| Code quality             | Ruff formatting and linting              |
+| Local cleanup            | Pixi cleanup tasks                       |
 
 ## Why use this template?
 
@@ -57,13 +57,14 @@ Main benefits:
 
 - **Reproducible environments** with Pixi and `pixi.lock`.
 - **Simple training loop** using PyTorch Lightning.
-- **Experiment tracking** with local MLflow.
+- **Local experiment tracking** with Aim.
 - **Config-driven experiments** through `configs/default.yaml`.
-- **Clean project structure** separating data, model, loss, training, evaluation, and utilities.
+- **Clean project structure** separating data, model, loss, training, evaluation, callbacks, and utilities.
 - **Local outputs kept out of git** through the ignored `local/` directory.
 - **Ready-to-run example** using a toy linear regression dataset.
 - **Smoke tests included** so you can quickly check that the template still works.
-- **Useful Pixi tasks** for training, evaluation, MLflow UI, formatting, linting, testing, and cleanup.
+- **Useful Pixi tasks** for training, evaluation, Aim UI, formatting, linting, testing, and cleanup.
+- **Reusable callback pattern** for logging figures during training and evaluation.
 
 This is intentionally small. It is meant to be copied, modified, and extended.
 
@@ -73,6 +74,7 @@ This is intentionally small. It is meant to be copied, modified, and extended.
 .
 ├── train.py
 ├── evaluate.py
+├── callbacks.py
 ├── utils.py
 ├── pyproject.toml
 ├── pixi.lock
@@ -146,10 +148,12 @@ Training will:
 
 - load configuration from `configs/default.yaml`,
 - train a small fully connected model,
-- log metrics and hyperparameters to MLflow,
+- track metrics and hyperparameters with Aim,
 - save checkpoints under `local/checkpoints/`,
-- save a test fit plot under `local/figures/`,
-- log the plot as an MLflow artifact.
+- save predicted-vs-true fit plots under `local/figures/`,
+- track selected fit plots in Aim.
+
+By default, the training callback tracks predicted-vs-true plots for selected epochs, such as the first, middle, and final epoch.
 
 > [!NOTE]
 > Training outputs are saved under `local/`, which is ignored by git.
@@ -177,23 +181,23 @@ To evaluate a different checkpoint:
 pixi run python evaluate.py --config configs/default.yaml --ckpt path/to/checkpoint.ckpt
 ```
 
-Evaluation logs test metrics and saves a predicted-vs-true fit plot.
+Evaluation logs test metrics and tracks a predicted-vs-true fit plot in Aim.
 
-## Open MLflow UI
+## Open Aim UI
 
-Start the local MLflow UI:
+Start the local Aim UI:
 
 ```bash
-pixi run mlflow-ui
+pixi run aim-ui
 ```
 
 Then open:
 
 ```text
-http://127.0.0.1:5000
+http://127.0.0.1:43800
 ```
 
-In the MLflow UI, select the `ml-template` experiment. You should see runs with logged parameters, metrics such as `train/loss`, `val/loss`, and `test/loss`, and generated figure artifacts.
+In the Aim UI, open the `ml-template` experiment. You should see runs with tracked parameters, metrics such as `train/loss`, `val/loss`, and `test/loss`, and generated image sequences such as predicted-vs-true fit plots.
 
 ## Configuration
 
@@ -212,7 +216,7 @@ It controls:
 - model dimensions,
 - optimizer settings,
 - trainer settings,
-- MLflow tracking URI,
+- Aim repository path,
 - checkpoint path,
 - evaluation checkpoint path.
 
@@ -233,7 +237,7 @@ Generated files are stored under `local/`, which is ignored by git.
 Typical local outputs:
 
 ```text
-local/mlflow.db
+local/aim/
 local/checkpoints/
 local/figures/
 ```
@@ -242,7 +246,7 @@ This keeps the repository clean while allowing experiments, checkpoints, plots, 
 
 ## Cleaning local outputs
 
-Clean only MLflow runs and experiment metadata:
+Clean only Aim runs and experiment metadata:
 
 ```bash
 pixi run clean-runs
@@ -272,10 +276,7 @@ pixi run clean-all
 The cleanup tasks remove these files/directories:
 
 ```text
-local/mlflow.db
-local/mlruns/
-local/mlartifacts/
-mlruns/
+local/aim/
 local/checkpoints/
 local/figures/
 ```
@@ -307,7 +308,7 @@ A typical workflow is:
 ```bash
 pixi install
 pixi run train
-pixi run mlflow-ui
+pixi run aim-ui
 ```
 
 Before committing changes:
@@ -329,16 +330,17 @@ Common next steps:
 - Replace `FCNet` in `model/model.py` with your own neural network model.
 - Modify `mse_loss` in `model/loss.py` or add new loss functions.
 - Add more configuration files under `configs/`.
-- Add project-specific metrics, plots, callbacks, or MLflow artifacts.
+- Add project-specific metrics, plots, callbacks, or Aim-tracked figures.
+- Modify `AimFitPlotCallback` in `callbacks.py` for custom image logging.
 - Add real unit tests under `tests/`.
 
 ## Notes
 
 - `local/` is intentionally ignored by git.
-- Keep raw data, generated data, MLflow runs, checkpoints, and figures under `local/`.
+- Keep raw data, generated data, Aim runs, checkpoints, and figures under `local/`.
 - Commit `pixi.lock` for reproducible environments.
 - The default example trains a tiny fully connected model on a synthetic linear regression dataset.
-- The template uses local MLflow tracking through SQLite by default.
+- The template uses local Aim tracking by default.
 - Model checkpoints are saved locally rather than uploaded to a cloud registry.
 
 ## License
