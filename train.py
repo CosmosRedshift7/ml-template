@@ -1,12 +1,12 @@
 import argparse
 
-from aim import Image
 from aim.pytorch_lightning import AimLogger
 from lightning.pytorch import Trainer, seed_everything
 from lightning.pytorch.callbacks import LearningRateMonitor, ModelCheckpoint
 
+from callbacks import AimPlotCallback
 from model import LightningModel, LinearRegressionData
-from utils import ensure_dir, load_config, make_config_parser, save_test_fit_plot
+from utils import ensure_dir, load_config, make_config_parser
 
 
 def parse_args() -> argparse.Namespace:
@@ -34,31 +34,24 @@ def main() -> None:
 
     checkpoint = ModelCheckpoint(**cfg["checkpoint"])
     lr_monitor = LearningRateMonitor(logging_interval="epoch")
+    plot_callback = AimPlotCallback(
+        save_dir="local/figures",
+        every_n_epochs=None,
+        track_on_train_end=False,
+        track_first_middle_last=True,
+    )
 
     trainer = Trainer(
         **cfg["trainer"],
         logger=logger,
-        callbacks=[checkpoint, lr_monitor],
+        callbacks=[checkpoint, lr_monitor, plot_callback],
         deterministic=True,
     )
 
     trainer.fit(model, datamodule=datamodule)
     trainer.test(model, datamodule=datamodule)
 
-    fig_path = save_test_fit_plot(
-        model,
-        datamodule,
-        "local/figures/train_fit_on_test_dataset.png",
-    )
-
-    logger.experiment.track(
-        Image(str(fig_path)),
-        name="train_fit_on_test_dataset",
-        context={"type": "figure"},
-    )
-
     print(f"Best checkpoint saved to: {checkpoint.best_model_path}")
-    print(f"Test fit plot saved to: {fig_path}")
 
 
 if __name__ == "__main__":

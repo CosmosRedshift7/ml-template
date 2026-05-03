@@ -3,10 +3,9 @@ from pathlib import Path
 from typing import Any
 
 import matplotlib.pyplot as plt
-import torch
+import numpy as np
 import yaml
-
-from model import LightningModel, LinearRegressionData
+from numpy.typing import ArrayLike
 
 
 def load_config(path: str | Path) -> dict[str, Any]:
@@ -26,50 +25,31 @@ def ensure_dir(path: str | Path) -> Path:
     return path
 
 
-def save_test_fit_plot(
-    model: LightningModel,
-    datamodule: LinearRegressionData,
+def save_plot(
+    y_true: ArrayLike,
+    y_pred: ArrayLike,
     save_path: str | Path,
+    title: str = "Predicted vs true",
 ) -> Path:
-    """Save a predicted-vs-true plot on the test set.
+    """Save a predicted-vs-true scatter plot.
 
-    For multidimensional inputs, the most natural visualization is a scatter
-    plot of predicted targets versus true targets. The dashed diagonal line
-    shows the ideal fit y_pred = y_true.
+    The dashed diagonal line shows the ideal fit y_pred = y_true.
     """
     save_path = Path(save_path)
     save_path.parent.mkdir(parents=True, exist_ok=True)
 
-    datamodule.setup("test")
-    test_loader = datamodule.test_dataloader()
-
-    model.eval()
-
-    y_true_list = []
-    y_pred_list = []
-
-    device = model.device
-
-    with torch.no_grad():
-        for x, y in test_loader:
-            x = x.to(device)
-            pred = model(x).cpu()
-
-            y_true_list.append(y.cpu())
-            y_pred_list.append(pred)
-
-    y_true = torch.cat(y_true_list).squeeze().numpy()
-    y_pred = torch.cat(y_pred_list).squeeze().numpy()
+    y_true = np.asarray(y_true).squeeze()
+    y_pred = np.asarray(y_pred).squeeze()
 
     min_val = min(y_true.min(), y_pred.min())
     max_val = max(y_true.max(), y_pred.max())
 
-    plt.figure(figsize=(6, 6))
+    plt.figure(figsize=(3, 3))
     plt.scatter(y_true, y_pred, alpha=0.6)
     plt.plot([min_val, max_val], [min_val, max_val], linestyle="--")
-    plt.xlabel("True target")
-    plt.ylabel("Predicted target")
-    plt.title("Test fit: predicted vs true")
+    plt.xlabel("True")
+    plt.ylabel("Predicted")
+    plt.title(title)
     plt.tight_layout()
     plt.savefig(save_path, dpi=150)
     plt.close()
