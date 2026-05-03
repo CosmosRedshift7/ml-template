@@ -11,26 +11,12 @@ platforms = ["linux-64"]
 
 [tool.pixi.dependencies]
 python = ">=3.12,<3.13"
+pytorch-cpu = ">=2.10,<2.11"
 lightning = ">=2.6,<2.7"
 aim = ">=3.29,<3.30"
 pyyaml = "*"
 matplotlib = "*"
 setuptools = "<81"
-
-[tool.pixi.feature.cpu.dependencies]
-pytorch-cpu = ">=2.10,<2.11"
-
-[tool.pixi.feature.gpu.system-requirements]
-cuda = "12.9"
-
-[tool.pixi.feature.gpu.dependencies]
-pytorch-gpu = ">=2.10,<2.11"
-cuda-version = "12.9.*"
-
-[tool.pixi.environments]
-default = ["cpu", "dev"]
-cpu = ["cpu", "dev"]
-gpu = ["gpu", "dev"]
 
 [tool.pixi.tasks]
 train = "python train.py --config configs/default.yaml"
@@ -49,6 +35,9 @@ pytest = "pytest"
 [tool.pixi.feature.dev.dependencies]
 pytest = "*"
 ruff = "*"
+
+[tool.pixi.environments]
+default = ["dev"]
 
 [tool.ruff]
 line-length = 100

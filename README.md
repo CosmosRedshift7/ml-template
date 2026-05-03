@@ -40,7 +40,6 @@ http://127.0.0.1:43800
 | ------------------------ | ---------------------------------------- |
 | Reproducible environment | Pixi + `pixi.lock`                       |
 | Training framework       | PyTorch Lightning                        |
-| Multi-GPU training       | Configurable through Lightning Trainer   |
 | Experiment tracking      | Local Aim tracking                       |
 | Configuration            | YAML config in `configs/default.yaml`    |
 | Checkpointing            | Lightning `ModelCheckpoint`              |
@@ -58,7 +57,6 @@ Main benefits:
 
 - **Reproducible environments** with Pixi and `pixi.lock`.
 - **Simple training loop** using PyTorch Lightning.
-- **Easy multi-GPU training** through Lightning Trainer settings such as `accelerator`, `devices`, and `strategy`.
 - **Local experiment tracking** with Aim.
 - **Config-driven experiments** through `configs/default.yaml`.
 - **Clean project structure** separating data, model, loss, training, evaluation, callbacks, and utilities.
@@ -132,15 +130,6 @@ This creates a local Pixi environment using the dependencies specified in `pypro
 > [!TIP]
 > Commit `pixi.lock` to make the environment reproducible across machines.
 
-> [!TIP]
-> To work inside the project environment interactively, activate a Pixi shell:
->
-> ```bash
-> pixi shell
-> ```
->
-> This is useful when opening editors, running Python manually, or checking installed packages from the terminal.
-
 ## Train
 
 Run training with:
@@ -169,48 +158,13 @@ By default, the training callback tracks predicted-vs-true plots for selected ep
 > [!NOTE]
 > Training outputs are saved under `local/`, which is ignored by git.
 
-## Multi-GPU training
-
-PyTorch Lightning makes it easy to scale the same training script from CPU or single-GPU training to multi-GPU training.
-
-For example, to train on two GPUs, edit `configs/default.yaml`:
-
-```yaml
-trainer:
-  max_epochs: 10
-  accelerator: gpu
-  devices: 2
-  strategy: ddp
-  log_every_n_steps: 10
-```
-
-Then run training normally:
-
-```bash
-pixi run train
-```
-
-To use all available GPUs, you can set:
-
-```yaml
-trainer:
-  accelerator: gpu
-  devices: auto
-  strategy: ddp
-```
-
-> [!IMPORTANT]
-> This template currently uses the CPU PyTorch package by default. For actual GPU training, update the Pixi dependencies to use a CUDA-enabled PyTorch build appropriate for your system.
-
-````
-
 ## Evaluate from a checkpoint
 
 Evaluate the checkpoint specified in `configs/default.yaml`:
 
 ```bash
 pixi run evaluate
-````
+```
 
 By default, this evaluates:
 
