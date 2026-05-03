@@ -1,5 +1,8 @@
 seed: 42
 
+torch:
+  float32_matmul_precision: medium
+
 data:
   n_train: 4096
   n_val: 1024

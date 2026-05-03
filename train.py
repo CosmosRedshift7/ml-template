@@ -1,5 +1,6 @@
 import argparse
 
+import torch
 from aim.pytorch_lightning import AimLogger
 from lightning.pytorch import Trainer, seed_everything
 from lightning.pytorch.callbacks import LearningRateMonitor, ModelCheckpoint
@@ -17,6 +18,9 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     cfg = load_config(args.config)
+
+    precision = cfg.get("torch", {}).get("float32_matmul_precision", "highest")
+    torch.set_float32_matmul_precision(precision)
 
     seed_everything(cfg["seed"], workers=True)
 

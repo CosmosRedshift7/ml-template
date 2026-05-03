@@ -40,6 +40,7 @@ http://127.0.0.1:43800
 | ------------------------ | ---------------------------------------- |
 | Reproducible environment | Pixi + `pixi.lock`                       |
 | Training framework       | PyTorch Lightning                        |
+| Multi-GPU training       | Configurable through Lightning Trainer   |
 | Experiment tracking      | Local Aim tracking                       |
 | Configuration            | YAML config in `configs/default.yaml`    |
 | Checkpointing            | Lightning `ModelCheckpoint`              |
@@ -57,6 +58,7 @@ Main benefits:
 
 - **Reproducible environments** with Pixi and `pixi.lock`.
 - **Simple training loop** using PyTorch Lightning.
+- **Easy multi-GPU training** through Lightning Trainer settings such as `accelerator`, `devices`, and `strategy`.
 - **Local experiment tracking** with Aim.
 - **Config-driven experiments** through `configs/default.yaml`.
 - **Clean project structure** separating data, model, loss, training, evaluation, callbacks, and utilities.
@@ -130,6 +132,36 @@ This creates a local Pixi environment using the dependencies specified in `pypro
 > [!TIP]
 > Commit `pixi.lock` to make the environment reproducible across machines.
 
+## Managing Pixi environments
+
+Activate the project environment in your terminal:
+
+```bash
+pixi shell
+```
+
+This lets you run commands such as `python`, `pytest`, or `ruff` directly inside the Pixi environment.
+
+> [!TIP]
+> Use `pixi shell` when you want your terminal or editor to use the project environment interactively.
+
+To rebuild the Pixi environment from the lock file:
+
+```bash
+rm -rf .pixi
+pixi install
+```
+
+To fully resolve dependencies again and regenerate the lock file:
+
+```bash
+rm -rf .pixi pixi.lock
+pixi install
+```
+
+> [!WARNING]
+> Deleting `.pixi/` removes the local environment. Deleting `pixi.lock` forces Pixi to resolve package versions again, which may produce a different environment.
+
 ## Train
 
 Run training with:
@@ -157,6 +189,98 @@ By default, the training callback tracks predicted-vs-true plots for selected ep
 
 > [!NOTE]
 > Training outputs are saved under `local/`, which is ignored by git.
+
+## GPU training
+
+PyTorch Lightning makes it easy to use the same training script on CPU, single-GPU, or multi-GPU machines.
+
+This template defines separate Pixi environments for CPU and GPU usage:
+
+```text
+cpu      # CPU PyTorch environment
+gpu      # CUDA-enabled PyTorch environment
+default  # uses the CPU environment by default
+```
+
+The default environment uses CPU PyTorch, so normal training works with:
+
+```bash
+pixi run train
+```
+
+or explicitly:
+
+```bash
+pixi run -e cpu train
+```
+
+For CUDA-enabled PyTorch, install the GPU environment:
+
+```bash
+pixi install -e gpu
+```
+
+Check that PyTorch can see CUDA:
+
+```bash
+pixi run -e gpu python -c 'import torch; print(torch.cuda.is_available()); print(torch.version.cuda)'
+```
+
+With the default trainer settings,
+
+```yaml
+trainer:
+  max_epochs: 10
+  accelerator: auto
+  devices: auto
+```
+
+running
+
+```bash
+pixi run -e gpu train
+```
+
+will automatically use a GPU if one is available.
+
+For explicit single-GPU training, you can set:
+
+```yaml
+trainer:
+  max_epochs: 10
+  accelerator: gpu
+  devices: 1
+  log_every_n_steps: 10
+```
+
+Then run:
+
+```bash
+pixi run -e gpu train
+```
+
+For multi-GPU training, set the number of GPUs and use distributed data parallel training:
+
+```yaml
+trainer:
+  max_epochs: 10
+  accelerator: gpu
+  devices: 2
+  strategy: ddp
+  log_every_n_steps: 10
+```
+
+To use all available GPUs, you can set:
+
+```yaml
+trainer:
+  accelerator: gpu
+  devices: auto
+  strategy: ddp
+```
+
+> [!IMPORTANT]
+> GPU training requires a machine with NVIDIA GPUs, a compatible NVIDIA driver, and a CUDA-enabled PyTorch environment. The CPU environment is kept as the default because it works on most machines.
 
 ## Evaluate from a checkpoint
 
@@ -283,6 +407,12 @@ local/figures/
 
 ## Format, lint, and test
 
+Automatically fix lint issues where possible:
+
+```bash
+pixi run fix
+```
+
 Format code:
 
 ```bash
@@ -301,19 +431,10 @@ Run tests:
 pixi run pytest
 ```
 
-## Recommended workflow
-
-A typical workflow is:
+A typical cleanup/check sequence before committing is:
 
 ```bash
-pixi install
-pixi run train
-pixi run aim-ui
-```
-
-Before committing changes:
-
-```bash
+pixi run fix
 pixi run format
 pixi run lint
 pixi run pytest
