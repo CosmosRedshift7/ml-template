@@ -132,6 +132,9 @@ This creates a local Pixi environment using the dependencies specified in `pypro
 > [!TIP]
 > Commit `pixi.lock` to make the environment reproducible across machines.
 
+> [!NOTE]
+> The default environment uses CPU PyTorch. For CUDA-enabled training, see the [GPU training](#gpu-training) section.
+
 ## Managing Pixi environments
 
 Activate the project environment in your terminal:
