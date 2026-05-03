@@ -10,10 +10,10 @@ channels = ["conda-forge"]
 platforms = ["linux-64"]
 
 [tool.pixi.dependencies]
-python = "*"
-pytorch-cpu = "*"
-lightning = "*"
-aim = "*"
+python = ">=3.12,<3.13"
+pytorch-cpu = ">=2.10,<2.11"
+lightning = ">=2.6,<2.7"
+aim = ">=3.29,<3.30"
 pyyaml = "*"
 matplotlib = "*"
 setuptools = "<81"
