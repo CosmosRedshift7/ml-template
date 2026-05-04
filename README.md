@@ -189,9 +189,6 @@ Training will:
 - track metrics and hyperparameters with Aim,
 - save checkpoints under `local/checkpoints/`,
 - save predicted-vs-true fit plots under `local/figures/`,
-- track selected fit plots in Aim.
-
-By default, the training callback tracks predicted-vs-true plots for selected epochs, such as the first, middle, and final epoch.
 
 > [!NOTE]
 > Training outputs are saved under `local/`, which is ignored by git.
@@ -394,31 +391,7 @@ local/figures/
 
 ## Format, lint, and test
 
-Automatically fix lint issues where possible:
-
-```bash
-pixi run fix
-```
-
-Format code:
-
-```bash
-pixi run format
-```
-
-Lint code:
-
-```bash
-pixi run lint
-```
-
-Run tests:
-
-```bash
-pixi run pytest
-```
-
-A typical check sequence before committing is:
+Use these checks before committing changes. `fix` applies automatic Ruff fixes where possible, `format` formats the code, `lint` checks for remaining style/import issues, and `pytest` runs the smoke tests.
 
 ```bash
 pixi run fix
@@ -439,17 +412,15 @@ Common next steps:
 - Modify `mse_loss` in `model/loss.py` or add new loss functions.
 - Add more configuration files under `configs/`.
 - Add project-specific metrics, plots, callbacks, or Aim-tracked figures.
-- Modify `AimFitPlotCallback` in `callbacks.py` for custom image logging.
+- Modify `AimPlotCallback` in `callbacks.py` for custom image logging.
 - Add real unit tests under `tests/`.
 
 ## Notes
 
-- `local/` is intentionally ignored by git.
 - Keep raw data, generated data, Aim runs, checkpoints, and figures under `local/`.
 - Commit `pixi.lock` for reproducible environments.
 - The default example trains a tiny fully connected model on a synthetic linear regression dataset.
 - The template uses local Aim tracking by default.
-- Model checkpoints are saved locally rather than uploaded to a cloud registry.
 
 ## License
 
