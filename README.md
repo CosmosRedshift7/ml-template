@@ -418,7 +418,7 @@ Run tests:
 pixi run pytest
 ```
 
-A typical cleanup/check sequence before committing is:
+A typical check sequence before committing is:
 
 ```bash
 pixi run fix
