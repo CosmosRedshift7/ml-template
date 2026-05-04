@@ -13,13 +13,20 @@ Minimal machine learning research template using [PyTorch](https://pytorch.org/)
 
 This repository is designed to be a clean starting point for ML experiments, research code, and small-to-medium prototype projects. The goal is to keep the project **reproducible**, **easy to understand**, and **easy to copy into a new project**.
 
-Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional “works on my machine” academic sport. Pixi provides reproducible environments and one-command task execution, PyTorch provides the core deep learning framework, Lightning organizes training/evaluation code, and Aim tracks metrics, parameters, and figures locally through a web UI.
+Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional "works on my machine" academic sport. Pixi provides reproducible environments and one-command task execution, PyTorch provides the core deep learning framework, Lightning organizes training/evaluation code, and Aim tracks metrics, parameters, and figures locally through a web UI.
 
 ## Quick start
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/CosmosRedshift7/ml-template.git
 cd ml-template
+```
+
+Install the environment, train the example model, and start the Aim UI:
+
+```bash
 pixi install
 pixi run train
 pixi run aim-ui
@@ -36,23 +43,21 @@ http://127.0.0.1:43800
 
 ## What you get
 
-| Feature                  | Included                                 |
-| ------------------------ | ---------------------------------------- |
-| Reproducible environment | Pixi + `pixi.lock`                       |
-| Training framework       | PyTorch Lightning                        |
-| Multi-GPU training       | Configurable through Lightning Trainer   |
-| Experiment tracking      | Local Aim tracking                       |
-| Configuration            | YAML config in `configs/default.yaml`    |
-| Checkpointing            | Lightning `ModelCheckpoint`              |
-| Evaluation               | Separate `evaluate.py` entry point       |
-| Plot tracking            | Aim callback for predicted-vs-true plots |
-| Tests                    | Pytest smoke tests                       |
-| Code quality             | Ruff formatting and linting              |
-| Local cleanup            | Pixi cleanup tasks                       |
+| Feature                  | Included                               |
+| ------------------------ | -------------------------------------- |
+| Reproducible environment | Pixi + `pixi.lock`                     |
+| Training framework       | PyTorch Lightning                      |
+| Multi-GPU training       | Configurable through Lightning Trainer |
+| Experiment tracking      | Local Aim tracking                     |
+| Configuration            | YAML config in `configs/default.yaml`  |
+| Checkpointing            | Lightning `ModelCheckpoint`            |
+| Evaluation               | Separate `evaluate.py` entry point     |
+| Plot tracking            | Aim callback for plots                 |
+| Tests                    | Pytest smoke tests                     |
+| Code quality             | Ruff formatting and linting            |
+| Local cleanup            | Pixi cleanup tasks                     |
 
 ## Why use this template?
-
-This template gives you a practical baseline for ML projects without forcing a heavy framework on top of your code.
 
 Main benefits:
 
@@ -67,8 +72,6 @@ Main benefits:
 - **Smoke tests included** so you can quickly check that the template still works.
 - **Useful Pixi tasks** for training, evaluation, Aim UI, formatting, linting, testing, and cleanup.
 - **Reusable callback pattern** for logging figures during training and evaluation.
-
-This is intentionally small. It is meant to be copied, modified, and extended.
 
 ## Structure
 
@@ -229,7 +232,14 @@ Check that PyTorch can see CUDA:
 pixi run -e gpu python -c 'import torch; print(torch.cuda.is_available()); print(torch.version.cuda)'
 ```
 
-With the default trainer settings,
+Expected output should look similar to:
+
+```text
+True
+12.9
+```
+
+With the default trainer settings in `configs/default.yaml`,
 
 ```yaml
 trainer:
@@ -238,44 +248,31 @@ trainer:
   devices: auto
 ```
 
-running
+running the GPU environment will automatically use a GPU if one is available:
 
 ```bash
 pixi run -e gpu train
 ```
 
-will automatically use a GPU if one is available.
-
-For explicit single-GPU training, you can set:
+For explicit GPU control, edit `configs/default.yaml`:
 
 ```yaml
+# single GPU
 trainer:
-  max_epochs: 10
   accelerator: gpu
   devices: 1
-  log_every_n_steps: 10
 ```
-
-Then run:
-
-```bash
-pixi run -e gpu train
-```
-
-For multi-GPU training, set the number of GPUs and use distributed data parallel training:
 
 ```yaml
+# two GPUs with distributed data parallel training
 trainer:
-  max_epochs: 10
   accelerator: gpu
   devices: 2
   strategy: ddp
-  log_every_n_steps: 10
 ```
 
-To use all available GPUs, you can set:
-
 ```yaml
+# all available GPUs
 trainer:
   accelerator: gpu
   devices: auto
@@ -283,7 +280,7 @@ trainer:
 ```
 
 > [!IMPORTANT]
-> GPU training requires a machine with NVIDIA GPUs, a compatible NVIDIA driver, and a CUDA-enabled PyTorch environment. The CPU environment is kept as the default because it works on most machines.
+> GPU training requires NVIDIA GPUs, a compatible NVIDIA driver, and the CUDA-enabled Pixi environment. The CPU environment is kept as the default because it works on most machines.
 
 ## Evaluate from a checkpoint
 
@@ -347,16 +344,6 @@ It controls:
 - checkpoint path,
 - evaluation checkpoint path.
 
-Example:
-
-```yaml
-trainer:
-  max_epochs: 10
-  accelerator: auto
-  devices: auto
-  log_every_n_steps: 10
-```
-
 ## Local outputs
 
 Generated files are stored under `local/`, which is ignored by git.
@@ -396,9 +383,6 @@ Clean everything generated locally:
 ```bash
 pixi run clean-all
 ```
-
-> [!WARNING]
-> Cleanup tasks delete local experiment outputs. They do not affect files committed to git.
 
 The cleanup tasks remove these files/directories:
 
