@@ -402,26 +402,20 @@ pixi run pytest
 
 ### Starting a new project from this template
 
-For a new research project, use the GitHub **Use this template** button.
+For a new research project, use the GitHub **Use this template** button. This creates a fresh repository with the same files but without carrying over the template commit history.
 
-```text
-Use this template → Create a new repository
+Alternatively, create a fresh local copy manually:
+
+```bash
+git clone https://github.com/CosmosRedshift7/ml-template.git new-project-name
+cd new-project-name
+rm -rf .git
+git init
+git add -A
+git commit -m "Initial commit from ml-template"
 ```
 
-This creates a fresh repository with the same files but without carrying over the template commit history.
-
-After creating the new repository, update the project-specific files:
-
-```text
-README.md
-pyproject.toml
-configs/default.yaml
-model/dataset.py
-model/model.py
-model/loss.py
-```
-
-At minimum, update the project metadata in `pyproject.toml`:
+After creating the new repository, update the project-specific files. At minimum, update the project metadata in `pyproject.toml`:
 
 ```toml
 [project]
