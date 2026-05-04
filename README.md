@@ -400,6 +400,45 @@ pixi run lint
 pixi run pytest
 ```
 
+### Starting a new project from this template
+
+For a new research project, use the GitHub **Use this template** button.
+
+```text
+Use this template → Create a new repository
+```
+
+This creates a fresh repository with the same files but without carrying over the template commit history.
+
+After creating the new repository, update the project-specific files:
+
+```text
+README.md
+pyproject.toml
+configs/default.yaml
+model/dataset.py
+model/model.py
+model/loss.py
+```
+
+At minimum, update the project metadata in `pyproject.toml`:
+
+```toml
+[project]
+name = "new-project-name"
+description = "Short description of the new project"
+```
+
+and update the Aim experiment name in `configs/default.yaml`:
+
+```yaml
+aim:
+  experiment_name: new-project-name
+```
+
+> [!TIP]
+> Fork this repository only if you want your new repository to remain visibly connected to `ml-template` or if you plan to contribute changes back to the template.
+
 ## Extending the template
 
 > [!TIP]
