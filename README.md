@@ -13,7 +13,7 @@ This template is designed for research ML projects where you want a clean starti
 
 Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional "works on my machine" academic sport. Pixi provides reproducible environments and one-command task execution, PyTorch provides the core deep learning framework, Lightning organizes training/evaluation code, and Aim tracks metrics, parameters, and figures locally through a web UI.
 
-> [Documentation and project landing page](https://cosmosredshift7.github.io/ml-template/)
+> [Documentation](https://cosmosredshift7.github.io/ml-template/)
 
 ## Quick start
 
