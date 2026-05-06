@@ -1,4 +1,4 @@
-# ml-template
+# Pixi PyTorch Lightning ML Template
 
 [![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.10-ee4c2c)](https://pytorch.org/)
@@ -7,11 +7,9 @@
 [![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)](https://pixi.sh/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-> A lightweight, reproducible PyTorch Lightning template with local Aim experiment tracking and Pixi environments.
+A lightweight, reproducible machine learning project template using Pixi, PyTorch Lightning, Aim experiment tracking, YAML configs, pytest smoke tests, and CPU/GPU environments.
 
-Minimal machine learning research template using [PyTorch](https://pytorch.org/), [PyTorch Lightning](https://lightning.ai/docs/pytorch/latest/), [Aim](https://aimstack.io/), and [Pixi](https://pixi.sh/).
-
-This repository is designed to be a clean starting point for ML experiments, research code, and small-to-medium prototype projects. The goal is to keep the project **reproducible**, **easy to understand**, and **easy to copy into a new project**.
+This template is designed for research ML projects where you want a clean starting point with reproducible dependencies, structured training/evaluation scripts, local experiment tracking, and easy project reuse.
 
 Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional "works on my machine" academic sport. Pixi provides reproducible environments and one-command task execution, PyTorch provides the core deep learning framework, Lightning organizes training/evaluation code, and Aim tracks metrics, parameters, and figures locally through a web UI.
 
