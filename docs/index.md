@@ -4,7 +4,7 @@ A lightweight, reproducible machine learning project template using **Pixi**, **
 
 This template is designed for research ML projects where you want a clean starting point with reproducible dependencies, structured training and evaluation scripts, local experiment tracking, and easy project reuse.
 
-[Repository on GitHub](https://github.com/CosmosRedshift7/ml-template){ .md-button .md-button--primary }
+[Repository](https://github.com/CosmosRedshift7/ml-template)
 
 ## What this template gives you
 
