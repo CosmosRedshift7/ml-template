@@ -7,7 +7,7 @@
 [![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)](https://pixi.sh/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-A lightweight, reproducible machine learning project template using Pixi, PyTorch Lightning, Aim experiment tracking, YAML configs, pytest smoke tests, and CPU/GPU environments.
+> A lightweight, reproducible machine learning project template using Pixi, PyTorch Lightning, Aim experiment tracking, YAML configs, pytest smoke tests, and CPU/GPU environments.
 
 This template is designed for research ML projects where you want a clean starting point with reproducible dependencies, structured training/evaluation scripts, local experiment tracking, and easy project reuse.
 
