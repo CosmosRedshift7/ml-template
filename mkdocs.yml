@@ -1,0 +1,42 @@
+site_name: Pixi PyTorch Lightning ML Template
+site_description: Reproducible machine learning project template using Pixi, PyTorch Lightning, Aim, YAML configs, and pytest.
+site_url: https://cosmosredshift7.github.io/ml-template/
+repo_url: https://github.com/CosmosRedshift7/ml-template
+repo_name: CosmosRedshift7/ml-template
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.details
+
+nav:
+  - Home: index.md
+  - Quick start: quick-start.md
+  - Installation and Pixi: setup.md
+  - Training and evaluation: training-evaluation.md
+  - GPU training: gpu-training.md
+  - Experiment tracking: experiment-tracking.md
+  - Project structure: project-structure.md
+  - Configuration: configuration.md
+  - Using as a template: template-usage.md
+  - Extending the template: extending.md
+  - Development workflow: development.md
+  - Troubleshooting: troubleshooting.md
