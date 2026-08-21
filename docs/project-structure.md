@@ -7,6 +7,7 @@ The template uses a small but expandable structure.
 ├── train.py
 ├── evaluate.py
 ├── callbacks.py
+├── clean.py
 ├── utils.py
 ├── pyproject.toml
 ├── pixi.lock
@@ -33,6 +34,7 @@ The template uses a small but expandable structure.
 | `train.py` | Training entry point |
 | `evaluate.py` | Evaluation entry point |
 | `callbacks.py` | Aim figure logging callback |
+| `clean.py` | Cross-platform cleanup helper for generated outputs |
 | `utils.py` | Shared helper functions |
 | `pyproject.toml` | Project metadata, dependencies, Pixi tasks |
 | `pixi.lock` | Locked dependency versions |

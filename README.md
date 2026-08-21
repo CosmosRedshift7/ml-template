@@ -5,6 +5,7 @@
 [![Lightning](https://img.shields.io/badge/Lightning-2.6-purple)](https://lightning.ai/docs/pytorch/latest/)
 [![Aim](https://img.shields.io/badge/Aim-experiment%20tracking-111111)](https://aimstack.io/)
 [![Pixi](https://img.shields.io/badge/Pixi-reproducible%20envs-f0b90b)](https://pixi.sh/)
+[![CI](https://github.com/CosmosRedshift7/ml-template/actions/workflows/ci.yml/badge.svg)](https://github.com/CosmosRedshift7/ml-template/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 > A lightweight, reproducible machine learning project template using Pixi, PyTorch Lightning, Aim experiment tracking, YAML configs, pytest smoke tests, and CPU/GPU environments.
@@ -54,6 +55,7 @@ http://127.0.0.1:43800
 | Evaluation               | Separate `evaluate.py` entry point     |
 | Plot tracking            | Aim callback for plots                 |
 | Tests                    | Pytest smoke tests                     |
+| Supported hosts          | Linux, macOS, and Windows through WSL2 |
 | Code quality             | Ruff formatting and linting            |
 | Local cleanup            | Pixi cleanup tasks                     |
 
@@ -80,6 +82,7 @@ Main benefits:
 ├── train.py
 ├── evaluate.py
 ├── callbacks.py
+├── clean.py
 ├── utils.py
 ├── pyproject.toml
 ├── pixi.lock
@@ -99,25 +102,34 @@ Main benefits:
     └── test_smoke.py
 ```
 
+## Platform support
+
+| Host | CPU environment | CUDA environment |
+| --- | --- | --- |
+| Linux x86-64 | Supported | Supported with NVIDIA GPU |
+| macOS Intel | Supported | Not available |
+| macOS Apple silicon | Supported | Not available |
+| Windows 10/11 | Supported through WSL2 | Supported through WSL2 with a compatible NVIDIA GPU |
+
+Aim supports Linux and macOS but not native Windows. Windows users should run the template inside [WSL2](https://learn.microsoft.com/windows/wsl/install), which uses the locked Linux environment. Native Windows is not currently supported by the complete template.
+
 ## Setup
 
 Install Pixi first if you do not already have it.
 
-Linux & macOS:
+Linux and macOS:
 
 ```bash
 curl -fsSL https://pixi.sh/install.sh | sh
 ```
 
-Windows:
-
-[Download installer](https://github.com/prefix-dev/pixi/releases/latest/download/pixi-x86_64-pc-windows-msvc.msi)
-
-or install from PowerShell:
+Windows: first install WSL2 from an administrator PowerShell terminal, then restart if prompted:
 
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm -useb https://pixi.sh/install.ps1 | iex"
+wsl --install
 ```
+
+Open the installed Ubuntu terminal, clone the repository there, and use the Linux Pixi installer shown above.
 
 > [!IMPORTANT]
 > 🔥 **Restart your terminal or shell after installing Pixi.**
@@ -154,19 +166,18 @@ This lets you run commands such as `python`, `pytest`, or `ruff` directly inside
 To rebuild the Pixi environment from the lock file:
 
 ```bash
-rm -rf .pixi
-pixi install
+pixi clean
+pixi install --frozen
 ```
 
 To fully resolve dependencies again and regenerate the lock file:
 
 ```bash
-rm -rf .pixi pixi.lock
-pixi install
+pixi update
 ```
 
 > [!WARNING]
-> Deleting `.pixi/` removes the local environment. Deleting `pixi.lock` forces Pixi to resolve package versions again, which may produce a different environment.
+> `pixi clean` removes the local environments. `pixi update` can change locked package versions, so review and commit the resulting `pixi.lock` diff.
 
 ## Train
 
@@ -277,7 +288,7 @@ trainer:
 ```
 
 > [!IMPORTANT]
-> GPU training requires NVIDIA GPUs, a compatible NVIDIA driver, and the CUDA-enabled Pixi environment. The CPU environment is kept as the default because it works on most machines.
+> GPU training requires Linux or WSL2, an NVIDIA GPU, a compatible NVIDIA driver, and the CUDA-enabled Pixi environment. CUDA is not available on macOS. The CPU environment is kept as the default because it works on most machines.
 
 ## Evaluate from a checkpoint
 

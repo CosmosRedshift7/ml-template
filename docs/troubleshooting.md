@@ -13,18 +13,21 @@ If it still fails, check that Pixi's binary directory is in your shell `PATH`.
 Rebuild from the lock file:
 
 ```bash
-rm -rf .pixi
-pixi install
+pixi clean
+pixi install --frozen
 ```
 
 If you intentionally want to re-resolve dependencies:
 
 ```bash
-rm -rf .pixi pixi.lock
-pixi install
+pixi update
 ```
 
-Be careful: deleting `pixi.lock` can produce different dependency versions.
+Be careful: `pixi update` can produce different dependency versions. Review the `pixi.lock` diff before committing it.
+
+## Native Windows install cannot resolve Aim
+
+Aim does not support native Windows. Install WSL2 with `wsl --install`, open the installed Ubuntu terminal, and run the project there.
 
 ## CUDA is not available
 

@@ -10,17 +10,13 @@ Linux and macOS:
 curl -fsSL https://pixi.sh/install.sh | sh
 ```
 
-Windows installer:
-
-```text
-https://github.com/prefix-dev/pixi/releases/latest/download/pixi-x86_64-pc-windows-msvc.msi
-```
-
-Windows PowerShell:
+Windows: install WSL2 from an administrator PowerShell terminal:
 
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm -useb https://pixi.sh/install.ps1 | iex"
+wsl --install
 ```
+
+Restart if prompted, open the installed Ubuntu terminal, and use the Linux Pixi installer shown above. Aim supports Linux and macOS but not native Windows, so the complete template is supported on Windows through WSL2.
 
 !!! important
 
@@ -55,17 +51,25 @@ Inside the shell, commands such as `python`, `pytest`, and `ruff` run inside the
 To rebuild from the existing lock file:
 
 ```bash
-rm -rf .pixi
-pixi install
+pixi clean
+pixi install --frozen
 ```
 
 To force a full dependency re-resolution:
 
 ```bash
-rm -rf .pixi pixi.lock
-pixi install
+pixi update
 ```
 
 !!! warning
 
-    Deleting `.pixi/` removes the local environment. Deleting `pixi.lock` allows dependency versions to change.
+    `pixi clean` removes the local environments. `pixi update` can change locked package versions, so review and commit the resulting `pixi.lock` diff.
+
+## Supported platforms
+
+| Host | CPU environment | CUDA environment |
+| --- | --- | --- |
+| Linux x86-64 | Supported | Supported with NVIDIA GPU |
+| macOS Intel | Supported | Not available |
+| macOS Apple silicon | Supported | Not available |
+| Windows 10/11 | Supported through WSL2 | Supported through WSL2 with a compatible NVIDIA GPU |
