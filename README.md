@@ -8,13 +8,13 @@
 [![CI](https://github.com/CosmosRedshift7/ml-template/actions/workflows/ci.yml/badge.svg)](https://github.com/CosmosRedshift7/ml-template/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-> A lightweight, reproducible machine learning project template using Pixi, PyTorch Lightning, Aim experiment tracking, YAML configs, pytest smoke tests, and CPU/GPU environments.
+> A minimal PyTorch Lightning template for reproducible AI, machine learning, and scientific computing that runs locally by default and can be extended to remote workflows—with locked Pixi environments, Aim experiment tracking, YAML configuration, and CPU/GPU training.
 
-This template is designed for research ML projects where you want a clean starting point with reproducible dependencies, structured training/evaluation scripts, local experiment tracking, and easy project reuse.
+Reproducibility is especially important in scientific machine learning, including physics-informed and data-driven research. Even code published alongside manuscripts in strong journals can be difficult to reproduce because of dependency drift, undocumented commands, missing configurations, or unclear experiment histories. This template provides a compact structure for preserving the environment, configuration, execution commands, metrics, and outputs behind each experiment.
 
-Reproducibility is handled through Pixi environments and the generated `pixi.lock` file. After dependencies are resolved once, the lock file records the exact package versions, so another machine can recreate the same environment instead of playing the traditional "works on my machine" academic sport. Pixi provides reproducible environments and one-command task execution, PyTorch provides the core deep learning framework, Lightning organizes training/evaluation code, and Aim tracks metrics, parameters, and figures locally through a web UI.
+Experiments are tracked locally by default with Aim, without requiring Docker or cloud services, while the project can be adapted to shared or remote tracking workflows. Although designed with scientific projects in mind, the template is useful for any AI or ML project where repeatable execution, traceable experiments, and reproducible results matter.
 
-> [Documentation](https://cosmosredshift7.github.io/ml-template/)
+[**Use this template →**](https://github.com/CosmosRedshift7/ml-template/generate) · [Documentation](https://cosmosredshift7.github.io/ml-template/)
 
 ## Quick start
 
@@ -104,12 +104,12 @@ Main benefits:
 
 ## Platform support
 
-| Host | CPU environment | CUDA environment |
-| --- | --- | --- |
-| Linux x86-64 | Supported | Supported with NVIDIA GPU |
-| macOS Intel | Supported | Not available |
-| macOS Apple silicon | Supported | Not available |
-| Windows 10/11 | Supported through WSL2 | Supported through WSL2 with a compatible NVIDIA GPU |
+| Host                | CPU environment        | CUDA environment                                    |
+| ------------------- | ---------------------- | --------------------------------------------------- |
+| Linux x86-64        | Supported              | Supported with NVIDIA GPU                           |
+| macOS Intel         | Supported              | Not available                                       |
+| macOS Apple silicon | Supported              | Not available                                       |
+| Windows 10/11       | Supported through WSL2 | Supported through WSL2 with a compatible NVIDIA GPU |
 
 Aim supports Linux and macOS but not native Windows. Windows users should run the template inside [WSL2](https://learn.microsoft.com/windows/wsl/install), which uses the locked Linux environment. Native Windows is not currently supported by the complete template.
 
@@ -176,8 +176,7 @@ To fully resolve dependencies again and regenerate the lock file:
 pixi update
 ```
 
-> [!WARNING]
-> `pixi clean` removes the local environments. `pixi update` can change locked package versions, so review and commit the resulting `pixi.lock` diff.
+> [!WARNING] > `pixi clean` removes the local environments. `pixi update` can change locked package versions, so review and commit the resulting `pixi.lock` diff.
 
 ## Train
 
