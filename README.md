@@ -8,13 +8,13 @@
 [![CI](https://github.com/CosmosRedshift7/ml-template/actions/workflows/ci.yml/badge.svg)](https://github.com/CosmosRedshift7/ml-template/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-> A minimal PyTorch Lightning template for reproducible AI, machine learning, and scientific computing that runs locally by default and can be extended to remote workflows—with locked Pixi environments, Aim experiment tracking, YAML configuration, and CPU/GPU training.
+> A minimal PyTorch Lightning template for reproducible AI, machine learning, and scientific computing. It runs locally by default, can be extended to remote workflows, and includes locked Pixi environments, Aim experiment tracking, YAML configuration, and CPU/GPU training.
 
 Reproducibility is especially important in scientific machine learning, including physics-informed and data-driven research. Even code published alongside manuscripts in strong journals can be difficult to reproduce because of dependency drift, undocumented commands, missing configurations, or unclear experiment histories. This template provides a compact structure for preserving the environment, configuration, execution commands, metrics, and outputs behind each experiment.
 
 Experiments are tracked locally by default with Aim, without requiring Docker or cloud services, while the project can be adapted to shared or remote tracking workflows. Although designed with scientific projects in mind, the template is useful for any AI or ML project where repeatable execution, traceable experiments, and reproducible results matter.
 
-[**Use this template →**](https://github.com/CosmosRedshift7/ml-template/generate) · [Documentation](https://cosmosredshift7.github.io/ml-template/)
+[**Use this template**](https://github.com/CosmosRedshift7/ml-template/generate) · [Documentation](https://cosmosredshift7.github.io/ml-template/)
 
 ## Quick start
 
