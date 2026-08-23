@@ -7,7 +7,12 @@ requires-python = ">=3.12,<3.13"
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]
-platforms = ["linux-64"]
+platforms = [
+    "linux-64",
+    "osx-64",
+    "osx-arm64",
+    { name = "linux-64-cuda", platform = "linux-64", cuda = "12.9" },
+]
 
 [tool.pixi.dependencies]
 python = ">=3.12,<3.13"
@@ -17,11 +22,14 @@ pyyaml = "*"
 matplotlib = "*"
 setuptools = "<81"
 
+[tool.pixi.feature.cpu]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+
 [tool.pixi.feature.cpu.dependencies]
 pytorch-cpu = ">=2.10,<2.11"
 
-[tool.pixi.feature.gpu.system-requirements]
-cuda = "12.9"
+[tool.pixi.feature.gpu]
+platforms = ["linux-64-cuda"]
 
 [tool.pixi.feature.gpu.dependencies]
 pytorch-gpu = ">=2.10,<2.11"
@@ -37,10 +45,10 @@ train = "python train.py --config configs/default.yaml"
 evaluate = "python evaluate.py --config configs/default.yaml"
 aim-ui = "aim up --repo local/aim --host 127.0.0.1 --port 43800"
 
-clean-runs = "rm -rf local/aim"
-clean-checkpoints = "rm -rf local/checkpoints"
-clean-figures = "rm -rf local/figures"
-clean-all = "rm -rf local/aim local/checkpoints local/figures"
+clean-runs = "python clean.py runs"
+clean-checkpoints = "python clean.py checkpoints"
+clean-figures = "python clean.py figures"
+clean-all = "python clean.py all"
 
 fix = "ruff check . --fix"
 lint = "ruff check ."

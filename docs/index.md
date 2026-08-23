@@ -1,6 +1,6 @@
 # Pixi PyTorch Lightning ML Template
 
-A lightweight, reproducible machine learning project template using **Pixi**, **PyTorch Lightning**, **Aim experiment tracking**, YAML configs, pytest smoke tests, and CPU/GPU-ready environments.
+A lightweight, reproducible machine learning project template using **Pixi**, **PyTorch Lightning**, **Aim experiment tracking**, YAML configs, pytest smoke tests, and CPU/GPU-ready environments. The CPU environment is locked for Linux, Intel macOS, and Apple silicon macOS; Windows users run the Linux environment through WSL2.
 
 This template is designed for research ML projects where you want a clean starting point with reproducible dependencies, structured training and evaluation scripts, local experiment tracking, and easy project reuse.
 

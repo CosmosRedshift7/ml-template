@@ -12,6 +12,8 @@ default  # CPU environment by default
 
 The CPU environment is the default because it works on most machines.
 
+The CUDA environment is locked for Linux x86-64. Windows users can run it through WSL2 with a compatible NVIDIA GPU and driver. CUDA is not available on macOS.
+
 ## Run with CPU
 
 ```bash
@@ -101,6 +103,7 @@ trainer:
 
 GPU training requires:
 
+- Linux or WSL2,
 - an NVIDIA GPU,
 - a compatible NVIDIA driver,
 - the CUDA-enabled Pixi environment,

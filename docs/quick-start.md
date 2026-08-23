@@ -2,6 +2,8 @@
 
 This page gives the shortest path from cloning the repository to seeing a tracked experiment in Aim.
 
+The commands below run natively on Linux and macOS. On Windows, run them inside WSL2 because Aim does not support native Windows.
+
 ## Clone the repository
 
 ```bash
