@@ -1,4 +1,4 @@
-site_name: Pixi PyTorch Lightning ML Template
+site_name: "Pixi + PyTorch + Lightning + Aim ML Template"
 site_description: Reproducible machine learning project template using Pixi, PyTorch Lightning, Aim, YAML configs, and pytest.
 site_url: https://cosmosredshift7.github.io/ml-template/
 repo_url: https://github.com/CosmosRedshift7/ml-template
