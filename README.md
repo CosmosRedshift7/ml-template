@@ -1,4 +1,4 @@
-# Pixi PyTorch Lightning ML Template
+# Pixi + PyTorch + Lightning + Aim ML Template
 
 [![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.10-ee4c2c)](https://pytorch.org/)
