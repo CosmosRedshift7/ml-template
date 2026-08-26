@@ -176,7 +176,9 @@ To fully resolve dependencies again and regenerate the lock file:
 pixi update
 ```
 
-> [!WARNING] > `pixi clean` removes the local environments. `pixi update` can change locked package versions, so review and commit the resulting `pixi.lock` diff.
+<!-- prettier-ignore -->
+> [!WARNING]
+> `pixi clean` removes the local environments. `pixi update` can change locked package versions, so review and commit the resulting `pixi.lock` diff.
 
 ## Train
 
